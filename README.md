@@ -5,7 +5,9 @@ Code to reproduce the analysis of our report "Integrating Multi-omics through Sp
 ## Usage
 
 ```
-$ cd main
+$ cd data
+$ gunzip *
+$ cd ../R
 $ R
 > source("main.R")
 ```

@@ -17,5 +17,5 @@ Figures and tables will be added to the `./figures` and `./tables` directories r
 
 ## Notes
 
-Part of the analysis are quite computationally intensive. They can be re-run by editing main and setting `RUN_ALL <- TRUE`. However, we advise running the analysis on a computer cluster.
+Part of the analysis are quite computationally intensive. By default we have disabled the re-computation of certain values, however, they can be re-run by editing main and setting `RUN_ALL <- TRUE`. We advise running the analysis on a computer cluster.
 

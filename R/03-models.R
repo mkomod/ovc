@@ -1,6 +1,6 @@
 # Baseline see Hoanan Lau et al. 2019
-m.hl <- survival::coxph(Surv(Overall_survival_days, OS_event) ~ 
-		RPV + Age, data = TCGA)
+m.hl <- survival::coxph(Surv(Overall_survival_days, OS_event) ~ Age + Stage +
+		RPV, data = TCGA)
 summary(m.hl)
 
 # CCA projections

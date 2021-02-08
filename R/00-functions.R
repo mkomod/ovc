@@ -137,9 +137,7 @@ similarityMatrix <- function(W1, W2)
     Matrix::Matrix(A.bar, sparse=T)
 }
 
-
-constructSimilarityMatrix <- function(X1, X2, l1, l2) 
-{
+constructSimilarityMatrix <- function(X1, X2, l1, l2) {
     res <- robustCCA(X1, X2, l1, l2)
     Abar <- similarityMatrix(res$W1, res$W2)
     return(list(Abar=Abar, W1=res$W1, W2=res$W2))
@@ -245,8 +243,9 @@ plot.ccaSensitivity <- function(cca.sen, w, cca.actual=NULL, l1l2=NULL, l1=NULL,
 }
 
 
-concordance.gonen <- function(model)
+concordance.gonen <- function(model, seed=1)
 {
+    set.seed(1)
     b <- matrix(coef(model), ncol=1)
     X <- model.matrix(model)
     n <- nrow(X)
@@ -332,15 +331,43 @@ concordance.harrell <- function(model)
 }
 
 
-cat.models <- function(models) 
+cat.models <- function(models, se.below=T, line.sep=T, labs=NULL) 
 {
+    vals <- matrix(nrow=4, ncol=length(models))
     for (i in 1:length(models)) {
 	m <- get(models[i])
 	con <- concordance(m)
 	kon <- concordance.gonen(m)
-	cat(sprintf("%.3f", con$con), 
-	    "\\ (", sprintf("%.3f", sqrt(con$var)), ") & ",
-	    sprintf("%.3f", kon$c), "\\ (", sprintf("%.3f", sqrt(kon$se)) , ")",
-	    ifelse(i == length(models), "\n", "\\\\\n"), sep="")
+	vals[ , i] <- c(con$con, sqrt(con$var), kon$c, kon$se)
     }
+    
+    if (se.below)
+	for (i in 1:ncol(vals)) {
+	    v <- vals[ , i]
+	    cat(
+		ifelse(is.null(labs[i]), "", paste(labs[i], " & ")),
+		sprintf("%.3f", v[1]),   " & ", sprintf("%.3f", v[3]), "\\\\\n",
+		ifelse(is.null(labs[i]), "", " & "),
+		sprintf("(%.3f)", v[2]), " & ", sprintf("(%.3f)", v[4]),
+		ifelse(i == length(models) && !line.sep, "\n", "\\\\\n"), 
+		ifelse(line.sep, "\\hline\n", ""),
+		sep=""
+	    )
+	}
+
+    if (!se.below)
+	for (i in 1:ncol(vals)) {
+	    v <- vals[ , i]
+	    cat(
+		ifelse(is.null(labs[i]), "", paste(labs[i], " & ")),
+		sprintf("%.3f", v[1]), sprintf(" (%.3f) ", v[2]), " & ", 
+		sprintf("%.3f", v[3]), sprintf(" (%.3f) ", v[4]),
+		ifelse(i == length(models) && !line.sep, "\n", "\\\\\n"),
+		ifelse(line.sep, "\\hline\n", ""), sep=""
+	    )
+	}
 }
+
+
+
+

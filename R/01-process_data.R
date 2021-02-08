@@ -42,9 +42,10 @@ TCGA <- merge(TCGA, TCGA.rna, by="ID")
 # For more info reffer to ../figs/rcca_projections_w_outlier.png
 TCGA.outlier <- TCGA[67, ]
 TCGA <- TCGA[-67, ]
+# save(TCGA, file="../RData/tcga_full.RData")
 
 # IDs not present in radiomics dataset
-TCGA.radiomics$ID[!(TCGA.radiomics$ID %in% TCGA.rna$ID)]
+# TCGA.radiomics$ID[!(TCGA.radiomics$ID %in% TCGA.rna$ID)]
 
 # Cleanup
 rm(list=c("TCGA.rna.IDs", "TCGA.rna.sample.names"))

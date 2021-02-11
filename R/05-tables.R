@@ -32,3 +32,8 @@ cat("&", paste(1:N.pcs, collapse=" & "), "\\\\\n \\hline \n",
     (cumsum(TCGA.rna.eigen$values) / sum(TCGA.rna.eigen$values))[1:N.pcs]),
 	     collapse=" & "),"\n")
 sink()
+
+
+sink(file="../tables/networks.tex")
+    cat.networks(mods, mod.names, ncol(TCGA.rna.std))
+sink()

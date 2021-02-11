@@ -135,7 +135,7 @@ if (RUN_ALL) {
     load("../RData/networks.RData")
 }
 mods <- SmCCNet::getMultiOmicsModules(A_bar, ncol(TCGA.rna.std), PlotTree=F)
-
+mod.names <- colnames(cbind(TCGA.rna.std, TCGA.rad.std))
 
 # Models, Figrures and Tables ---
 source("03-models.R")

@@ -39,7 +39,6 @@ TCGA <- merge(TCGA.clinical, TCGA.radiomics, by="ID")
 TCGA <- merge(TCGA, TCGA.rna, by="ID")
 
 # Remove outlier
-# For more info reffer to ../figs/rcca_projections_w_outlier.png
 TCGA.outlier <- TCGA[67, ]
 TCGA <- TCGA[-67, ]
 # save(TCGA, file="../RData/tcga_full.RData")

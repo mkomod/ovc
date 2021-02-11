@@ -369,5 +369,19 @@ cat.models <- function(models, se.below=T, line.sep=T, labs=NULL)
 }
 
 
-
+cat.networks <- function(modules, feature_labels, X1_n_features, 
+    row_names=1:length(modules), hline=T) 
+{
+    feature_labels <- gsub("_", "\\\\_", feature_labels)
+    for(i in seq_along(modules)) {
+	mod <- modules[[i]]
+	cat(ifelse(!is.null(row_names), paste(
+	    "\\multirow{2}{*}{", row_names[i], "}&"), ""),
+	    paste(feature_labels[mod[mod <= X1_n_features]], collapse=", "),
+	    "\\\\ \\cline{2-2} \n &",
+	    paste(feature_labels[mod[mod > X1_n_features]], collapse=", "),
+	    "\\\\\n", ifelse(hline, "\\hline \n", "")
+	)
+    }
+}
 
